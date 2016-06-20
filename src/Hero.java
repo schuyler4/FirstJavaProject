@@ -4,15 +4,26 @@ public class Hero {
 	public int health;
 	public int damage;
 	public String name;
-
+	public boolean hasName = false;
+	public boolean alive = true;
+	
 	static Scanner userInput = new Scanner(System.in);
 	
-	public Hero(int health, int damage, String name) {
-		this.health = health;
-		this.damage = damage;
-		this.name = name;
+	public static boolean swingHit = false;
+	
+	public Hero() {
 		
-		setName();
+		setHealth(100);
+		setDamage(20);
+		
+		if(userInput.hasNextLine()) {
+			
+			if(hasName == false) {
+				
+				hasName = true;
+				this.setName(userInput.nextLine());
+			}
+		}	
 	}
 
 	
@@ -46,17 +57,44 @@ public class Hero {
 
 	public void setName(String name) {
 		this.name = name;
+		System.out.println("Your heros name is " + this.name);
 	}
 	
-	public void setName() {
+	public static void swing(Hero anyHero, evilHero targetHero) {
+		int randomNumber = (int) (Math.random() * 2) + 1;
+		
+		System.out.println(anyHero.getName() + " swings");
+		System.out.println(randomNumber);
+		if(randomNumber == 1) {
+			targetHero.health -= anyHero.damage;
+			System.out.println(anyHero.name + " hits " + targetHero.name + " for " + anyHero.damage);
+		}
+		else {
+			System.out.println(anyHero.name + " missed");
+		}
 		
 	}
-
+	
 
 	public static void main(String[] args) {
-		Hero yourHero = new Hero(100,20,"waki waki");
-		System.out.println(yourHero);
+		System.out.println("welcome to my text rpg game");
+		System.out.println("Enter a name for your Hero:");
+		
+		Hero yourHero = new Hero();
+		evilHero theEnemy = new evilHero();
+		
+		if(userInput.hasNext("health")) {
+						
+			System.out.println(yourHero.name+"'s health is  " + yourHero.health);
+			userInput.hasNextLine();
+				
+		}
+		else if(userInput.hasNext("swing")){
+				swing(yourHero, theEnemy);
+		}
+		userInput.hasNextLine();
 	}
+		
 	
 	
 }
